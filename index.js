@@ -18,8 +18,7 @@ const login = async () => {
   try {
     ig.state.generateDevice(IG_USERNAME);
     await ig.account.login(IG_USERNAME, IG_PASSWORD);
-    console.log(ig);
-
+   
   } catch (err) {
     console.error(err);
   }
@@ -62,11 +61,15 @@ if (IG_USERNAME && IG_PASSWORD && COOKIE_ACCOUNT_USERNAME && COOKIE_ACCOUNT_PASS
       start: true
     });
   
-  
+    console.log('STARTED CRON ');
+
     const postRandom = async () => {
-  
+      console.log("POSTING STARTED" + randomMinute);
+
       await login()
   
+      console.log("SUCCESSFULL LOGGED IN");
+
       const posts = await Travel.find().limit(1).sort({ likes: -1 })
   
       posts.map(async post => {
