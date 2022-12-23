@@ -93,7 +93,6 @@ const login = async () => {
 
     app_id = matchs[0].split(':')[1].replace('"', '').replace('"', '');
    
-    console.log(app_id);
 }
 const travelScrapper = async () => {
     try {
