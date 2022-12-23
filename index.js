@@ -61,7 +61,8 @@ if (IG_USERNAME && IG_PASSWORD && COOKIE_ACCOUNT_USERNAME && COOKIE_ACCOUNT_PASS
       start: true
     });
   
-    console.log('STARTED CRON ');
+    console.log('STARTED CRON');
+    console.log(randomMinute)
 
     const postRandom = async () => {
       console.log("POSTING STARTED" + randomMinute);
@@ -122,6 +123,7 @@ if (IG_USERNAME && IG_PASSWORD && COOKIE_ACCOUNT_USERNAME && COOKIE_ACCOUNT_PASS
         postRandom();
         randomMinute = Math.floor(Math.random() * 60);
       },
+      start: true 
     });
   
   } catch (error) {
