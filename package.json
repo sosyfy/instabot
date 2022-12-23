@@ -1,0 +1,28 @@
+{
+  "name": "instagrambot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@copy412/instagram-bot": "^1.8.12",
+    "@paul-hanneforth/instagram-bot": "^3.0.10",
+    "axios": "^1.2.1",
+    "cron": "^2.1.0",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "instagram-get-posts": "^1.0.0",
+    "instagram-private-api": "^1.45.3",
+    "instagram-scraper-api": "^1.0.1",
+    "mongoose": "^6.8.0",
+    "nodemon": "^2.0.20",
+    "puppeteer": "^19.4.1",
+    "random-image-unsplash": "^1.0.6"
+  }
+}
