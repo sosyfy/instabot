@@ -49,98 +49,97 @@ const connectToDb = async () => {
 
 
 
-
-
-if (IG_USERNAME && IG_PASSWORD && COOKIE_ACCOUNT_USERNAME && COOKIE_ACCOUNT_PASSWORD) {
-  try {
-    connectToDb()
-
-    new cron.CronJob({
-      cronTime: `${randomMinute} ${Math.floor(Math.random() * 12)} 1-31/3 * *`,
-      onTick: () => { scrap() },
-      start: true
-    });
-  
-    console.log('STARTED CRON');
-    console.log(randomMinute)
-
-    const postRandom = async () => {
-      console.log("POSTING STARTED" + randomMinute);
-
-      await login()
-  
-      console.log("SUCCESSFULL LOGGED IN");
-
-      const posts = await Travel.find().limit(1).sort({ likes: -1 })
-  
-      posts.map(async post => {
-  
-        let mediaBuff = post.links.map(link => {
-          return new Promise((resolve, reject) => {
-  
-            resolve(axios.get(link, { responseType: 'arraybuffer' }).then((res) => {
-              return res.data
-            }));
-          });
-  
-        })
-  
-        let mediaBuffers = await Promise.all(mediaBuff)
-  
-        if (post.type === "video") {
-          await ig.publish.video({
-            file: mediaBuffers[0],
-            caption: post.caption
-          })
-        } else {
-  
-          if ( mediaBuffers?.length > 1) {
-            await ig.publish.album({
-              items: mediaBuffers.map( item =>({
-                 file: item,
-              })),
-              caption: post.caption,
-            })
-          } else {
-            await ig.publish.photo({
-              file: mediaBuffers[0],
-              caption: post.caption
-            })
-          }
-  
-        }
-      })
-  
-  
-    }
-  
-  
-  
-    new cron.CronJob({
-      cronTime: `${randomMinute} 0-23/1 * * *`,
-      onTick: () => {
-        // Perform the task here
-        postRandom();
-        randomMinute = Math.floor(Math.random() * 60);
-      },
-      start: true 
-    });
-  
-  } catch (error) {
-     console.log(error);
-  }
- 
-
-} else {
-  console.warn(
-    "IG_USERNAME, IG_PASSWORD are required to run the script"
-  );
-}
-
 app.get("/", async (req, res) => {
   console.log("tried");
 });
 
 app.listen(PORT || 3001, () => {
   console.info("Server started.");
+  if (IG_USERNAME && IG_PASSWORD && COOKIE_ACCOUNT_USERNAME && COOKIE_ACCOUNT_PASSWORD) {
+    try {
+      connectToDb()
+  
+      new cron.CronJob({
+        cronTime: `${randomMinute} ${Math.floor(Math.random() * 12)} 1-31/3 * *`,
+        onTick: () => { scrap() },
+        start: true
+      });
+    
+      console.log('STARTED CRON');
+      console.log(randomMinute)
+  
+      const postRandom = async () => {
+        console.log("POSTING STARTED" + randomMinute);
+  
+        await login()
+    
+        console.log("SUCCESSFULL LOGGED IN");
+  
+        const posts = await Travel.find().limit(1).sort({ likes: -1 })
+    
+        posts.map(async post => {
+    
+          let mediaBuff = post.links.map(link => {
+            return new Promise((resolve, reject) => {
+    
+              resolve(axios.get(link, { responseType: 'arraybuffer' }).then((res) => {
+                return res.data
+              }));
+            });
+    
+          })
+    
+          let mediaBuffers = await Promise.all(mediaBuff)
+    
+          if (post.type === "video") {
+            await ig.publish.video({
+              file: mediaBuffers[0],
+              caption: post.caption
+            })
+          } else {
+    
+            if ( mediaBuffers?.length > 1) {
+              await ig.publish.album({
+                items: mediaBuffers.map( item =>({
+                   file: item,
+                })),
+                caption: post.caption,
+              })
+            } else {
+              await ig.publish.photo({
+                file: mediaBuffers[0],
+                caption: post.caption
+              })
+            }
+    
+          }
+        })
+    
+    
+      }
+    
+    
+    
+      new cron.CronJob({
+        cronTime: `${randomMinute} 0-23/1 * * *`,
+        onTick: () => {
+          // Perform the task here
+          postRandom();
+          randomMinute = Math.floor(Math.random() * 60);
+        },
+        start: true 
+      });
+    
+    } catch (error) {
+       console.log(error);
+    }
+   
+  
+  } else {
+    console.warn(
+      "IG_USERNAME, IG_PASSWORD are required to run the script"
+    );
+  }
+
+  
 });
