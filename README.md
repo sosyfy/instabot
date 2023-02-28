@@ -17,8 +17,8 @@ The Instagram Bot is a tool that allows users to automatically repost content fr
 ## Getting Started
 
 1. Clone the repository: `git clone https://github.com/sosyfy/instabot.git`
-2. Install dependencies: `npm install` or `yarn install`
-3. Set up your Instagram Private API credentials in the `config.js` file
+2. Install dependencies: `npm install` or `yarn`
+3. Set up your Instagram Private API credentials in the `.env` file
 4. Run the script: `node index.js` or `npm start` or `yarn start`
 5. Specify the Instagram user or hashtag you want to scrape and the cron schedule for reposting
 
